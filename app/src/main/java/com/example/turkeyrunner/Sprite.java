@@ -23,6 +23,16 @@ public class Sprite
     private double x;
     private double y;
 
+    public double vx;
+    public double vy;
+    public double ax;
+    public double ay;
+
+    public final double FRIC = 3;
+    public final double GRAV = 4;
+    public boolean affectedByGrav = false;
+
+
     Paint noAliasPaint = new Paint();
     Paint borderPaint = new Paint();
     Paint vectorPaint = new Paint();
