@@ -22,8 +22,8 @@ public class Enemy extends Sprite
     }
 
     public boolean isOffScreen() {
+
         return this.getRight() < screen.left;
     }
 }
 
-}

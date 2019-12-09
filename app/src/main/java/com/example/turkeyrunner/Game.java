@@ -22,6 +22,13 @@ public class Game
     private Resources resources;
     private GameState state = GameState.START;
 
+    private Player player;
+    private Background highway;
+    private Background skyline_close;
+    private Background skyline_mid;
+    private Background skyline_far;
+    private Enemy van;
+
     Paint borderPaint = new Paint();
     BitmapFactory.Options options;
 
@@ -46,6 +53,23 @@ public class Game
         }
     }
 
+    public void update(Long elapsed) {
+        if(state == GameState.RUNNING){
+            // Do stuff
+            player.update(elapsed);
+            highway.update(elapsed);
+            skyline_close.update(elapsed);
+            skyline_mid.update(elapsed);
+            skyline_far.update(elapsed);
+            van.update(elapsed);
+
+            if(van.isOffScreen()) van = new Enemy(BitmapFactory.decodeResource(resources, R.drawable.van, options),
+                    context, Enemy.generate(screen), screen, screen.height() - screen.width() / 10);
+
+            if(Rect.intersects(van.getHitbox(), player.getHitbox())) loseGame();
+        }
+    }
+
     public void draw() {
         Canvas canvas = holder.lockCanvas();
         if (canvas != null) {
@@ -63,5 +87,21 @@ public class Game
             }
             holder.unlockCanvasAndPost(canvas);
         }
+    }
+
+    private void drawGame(Canvas canvas) {
+        //Log.d("GAME_DRAWGAME", "Trying to draw everything in the game!");
+        //canvas.drawRect(screen, borderPaint);
+        skyline_far.draw(canvas);
+        skyline_mid.draw(canvas);
+        skyline_close.draw(canvas);
+        highway.draw(canvas);
+        van.draw(canvas, 0);
+        player.draw(canvas, 0);
+    }
+
+
+    private void loseGame() {
+        state = GameState.LOST;
     }
 }
