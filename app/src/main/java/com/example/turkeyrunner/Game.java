@@ -2,14 +2,16 @@ package com.example.turkeyrunner;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
-
 public class Game
 {
     private enum GameState {
@@ -76,13 +78,13 @@ public class Game
             canvas.drawColor(Color.WHITE);
             switch (state) {
                 case RUNNING:
-                    //drawGame(canvas);
+                    drawGame(canvas);
                     break;
                 case LOST:
-                    //drawGame(canvas);
+                    drawGame(canvas);
                     break;
                 case START:
-                    //drawGame(canvas);
+                    drawGame(canvas);
                     break;
             }
             holder.unlockCanvasAndPost(canvas);
@@ -91,7 +93,7 @@ public class Game
 
     private void drawGame(Canvas canvas) {
         //Log.d("GAME_DRAWGAME", "Trying to draw everything in the game!");
-        //canvas.drawRect(screen, borderPaint);
+        canvas.drawRect(screen, borderPaint);
         skyline_far.draw(canvas);
         skyline_mid.draw(canvas);
         skyline_close.draw(canvas);

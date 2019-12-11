@@ -12,11 +12,8 @@ public class Player extends Sprite
     }
 
     public void update(long elapsed) {
-        // Check for player hitting bottom
-        // TODO: Standardize how floor is calculated
         if(this.getHitbox().bottom >= screen.height() - screen.width() / 10) {
             this.setY(screen.height() - screen.width() / 10 - this.getHeight());
-            // Don't let player fall through
             this.vy = 0;
         }
         super.update(elapsed);
@@ -25,7 +22,6 @@ public class Player extends Sprite
     }
 
     public void jump() {
-        //Log.d("PLAYER", "Jump");
         if(Math.abs(this.getBottom() - screen.height() + screen.width() / 10) < 5) this.applyForce(0, -60);
     }
 

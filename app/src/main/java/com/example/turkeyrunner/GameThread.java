@@ -14,13 +14,12 @@ public class GameThread extends Thread
     public void run() {
         long lastTime = System.currentTimeMillis();
 
-        // Game loop
         while (running) {
             long now = System.currentTimeMillis();
             long elapsed = now - lastTime;
 
             if (elapsed < FRAME_RATE) {
-                //game.update(elapsed);
+                game.update(elapsed);
                 game.draw();
             }
             lastTime = now;
@@ -30,6 +29,5 @@ public class GameThread extends Thread
     public void shutdown() {
         running = false;
     }
-
 
 }
