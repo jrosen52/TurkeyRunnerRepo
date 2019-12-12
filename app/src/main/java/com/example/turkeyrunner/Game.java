@@ -30,6 +30,7 @@ public class Game
     private Background skyline_mid;
     private Background skyline_far;
     private Enemy van;
+    private Sprite loseText;
 
     Paint borderPaint = new Paint();
     BitmapFactory.Options options;
@@ -41,13 +42,14 @@ public class Game
         this.resources = resources;
         options = new BitmapFactory.Options();
         options.inScaled = false;
+        restartGame();
     }
 
     public void onTouchEvent(MotionEvent event) {
         if (state == GameState.RUNNING) {
-            //player.jump();
+            player.jump();
         } else if(state == GameState.LOST){
-            //restartGame();
+            restartGame();
         } else if(state == GameState.START) {
             state = GameState.RUNNING;
         } else if(state == GameState.PAUSED) {
@@ -57,7 +59,6 @@ public class Game
 
     public void update(Long elapsed) {
         if(state == GameState.RUNNING){
-            // Do stuff
             player.update(elapsed);
             highway.update(elapsed);
             skyline_close.update(elapsed);
@@ -75,15 +76,17 @@ public class Game
     public void draw() {
         Canvas canvas = holder.lockCanvas();
         if (canvas != null) {
-            canvas.drawColor(Color.WHITE);
+            canvas.drawColor(Color.argb(255, 120, 215, 250));
             switch (state) {
                 case RUNNING:
                     drawGame(canvas);
                     break;
                 case LOST:
                     drawGame(canvas);
+                    loseText.draw(canvas, 0);
                     break;
                 case START:
+                    //Log.d("GAME_DRAWGAME", "drawing game");
                     drawGame(canvas);
                     break;
             }
@@ -107,7 +110,7 @@ public class Game
     }
 
     private void restartGame() {
-        player = new Player(null, context, new Rect(
+        player = new Player(BitmapFactory.decodeResource(resources, R.drawable.turkey, options), context, new Rect(
                 400,
                 screen.height()/2,
                 520,
@@ -128,6 +131,10 @@ public class Game
 
         van = new Enemy(BitmapFactory.decodeResource(resources, R.drawable.van, options),
                 context, Enemy.generate(screen), screen, screen.height() - screen.width() / 10);
+
+        loseText = new Sprite(BitmapFactory.decodeResource(resources, R.drawable.lose, options),
+                context, new Rect(screen.width() / 2 - 600, screen.height() / 2 - 180, screen.width() / 2 + 600, screen.height() / 2 + 180), screen);
+
 
         borderPaint.setStrokeWidth(24);
         borderPaint.setColor(Color.GREEN);
